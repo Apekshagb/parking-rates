@@ -4,14 +4,14 @@
 
 **Description:**  
 :sparkle: Rates(/rates)  
-               :large_blue_diamond: This path takes a PUT where rate information can be updated by submitting a modified rates JSON. Thi submitted JSON overwrites the stored rates.  
-               :large_blue_diamond: A rate is comprised of a price, time range the rate is valid, and days of the week the rate applies to  
-               :large_blue_diamond: This path when requested with a GET returns the rates stored.  
+     :large_blue_diamond: This path takes a PUT where rate information can be updated by submitting a modified rates JSON. Thi submitted JSON overwrites the stored rates.  
+     :large_blue_diamond: A rate is comprised of a price, time range the rate is valid, and days of the week the rate applies to  
+     :large_blue_diamond: This path when requested with a GET returns the rates stored.  
 :sparkle: Price(/price)  
-               :large_blue_diamond: The second endpoint is price. It allows the user to request the price for a requested time.  
-               :large_blue_diamond: It uses query parameters for requesting the price. The user specifies input date/times as ISO-8601 with timezones  
-               :large_blue_diamond: The paramters are start and end. An example query is ?start=2015-07-01T07:00:00-05:00&end=2015-07-01T12:00:00-05:00  
-               :large_blue_diamond: Response contains price  
+     :large_blue_diamond: The second endpoint is price. It allows the user to request the price for a requested time.  
+     :large_blue_diamond: It uses query parameters for requesting the price. The user specifies input date/times as ISO-8601 with timezones  
+     :large_blue_diamond: The paramters are start and end. An example query is ?start=2015-07-01T07:00:00-05:00&end=2015-07-01T12:00:00-05:00  
+     :large_blue_diamond: Response contains price  
                           {  
                           "price": 5000  
                           }  
