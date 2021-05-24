@@ -7,6 +7,8 @@
      :large_blue_diamond: This path takes a PUT where rate information can be updated by submitting a modified rates JSON. Thi submitted JSON overwrites the stored rates.  
      :large_blue_diamond: A rate is comprised of a price, time range the rate is valid, and days of the week the rate applies to  
      :large_blue_diamond: This path when requested with a GET returns the rates stored.  
+     
+     
 :sparkle: Price(/price)  
      :large_blue_diamond: The second endpoint is price. It allows the user to request the price for a requested time.  
      :large_blue_diamond: It uses query parameters for requesting the price. The user specifies input date/times as ISO-8601 with timezones  
@@ -41,6 +43,7 @@ Kindly make sure the following softwares/tools have been installed on your syste
 **Running**  
 :white_check_mark: Run the SprintBootApplication (ParkingRatesApplication.java) -> You can right click within the file and run the app or run at the app level  
 :white_check_mark: Open a browser or portman and you can access the endpoint on you localhost via http://localhost:5000/api/* . 
+
  Below are the list of API's that you can access:  
     :eight_pointed_black_star: Get the list of existing rates (GET method)- http://localhost:5000/api/rates  
     :eight_pointed_black_star: Update the existing rates with a newwer set of rates (PUT Method) - http://localhost:5000/api/rates  
