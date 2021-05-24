@@ -19,10 +19,10 @@
                           }  
 
 **Built With**  
-Java  
-SpringBoot  
-JPA  
-Swagger  
+:small_orange_diamond: Java  
+:small_orange_diamond: SpringBoot  
+:small_orange_diamond: JPA  
+:small_orange_diamond: Swagger  
 
 **Getting Started**  
 This is an example of how you may give instructions on setting up your project locally. To get a local copy up and running follow these simple example steps.  
