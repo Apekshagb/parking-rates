@@ -4,14 +4,14 @@
 
 **Description:**  
 :sparkle: Rates(/rates)  
-     :large_blue_diamond: This path takes a PUT where rate information can be updated by submitting a modified rates JSON. Thi submitted JSON overwrites the stored rates.  
-     :large_blue_diamond: A rate is comprised of a price, time range the rate is valid, and days of the week the rate applies to  
-     :large_blue_diamond: This path when requested with a GET returns the rates stored.  
+               :large_blue_diamond: This path takes a PUT where rate information can be updated by submitting a modified rates JSON. Thi submitted JSON overwrites the stored rates.  
+               :large_blue_diamond: A rate is comprised of a price, time range the rate is valid, and days of the week the rate applies to  
+               :large_blue_diamond: This path when requested with a GET returns the rates stored.  
 :sparkle: Price(/price)  
-     :large_blue_diamond: The second endpoint is price. It allows the user to request the price for a requested time.  
-     :large_blue_diamond: It uses query parameters for requesting the price. The user specifies input date/times as ISO-8601 with timezones  
-     :large_blue_diamond: The paramters are start and end. An example query is ?start=2015-07-01T07:00:00-05:00&end=2015-07-01T12:00:00-05:00  
-     :large_blue_diamond: Response contains price  
+               :large_blue_diamond: The second endpoint is price. It allows the user to request the price for a requested time.  
+               :large_blue_diamond: It uses query parameters for requesting the price. The user specifies input date/times as ISO-8601 with timezones  
+               :large_blue_diamond: The paramters are start and end. An example query is ?start=2015-07-01T07:00:00-05:00&end=2015-07-01T12:00:00-05:00  
+               :large_blue_diamond: Response contains price  
                           {  
                           "price": 5000  
                           }  
@@ -38,7 +38,7 @@ Kindly make sure the following softwares/tools have been installed on your syste
 :white_check_mark: Import project into IDE as a maven project   
 :white_check_mark: Build the application  
 
-**Running**
+**Running**  
 :white_check_mark: Run the SprintBootApplication (ParkingRatesApplication.java) -> You can right click within the file and run the app or run at the app level  
 :white_check_mark: Open a browser or portman and you can access the endpoint on you localhost via http://localhost:5000/api/* . 
  Below are the list of API's that you can access:  
