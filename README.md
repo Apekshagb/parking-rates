@@ -1,5 +1,5 @@
 # parking-rates  
-**Project Name:** 	:smile:**Parking Rates API**	:smile:  
+**Project Name:** 	:moneybag: **Parking Rates API** :moneybag: 
 **Scope:** An API that allows a user to enter a date time range and get back the price at which they would be charged to park for that time span:star:  
 
 **Description:**  
