@@ -4,13 +4,17 @@ import com.sample.problem.parkingrates.data.ParkingRates;
 import com.sample.problem.parkingrates.data.Rates;
 import com.sample.problem.parkingrates.repository.RatesRepository;
 import com.sample.problem.parkingrates.utils.DateTimeFormatterHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class ParkingRatesServiceImpl implements ParkingRatesService {
+    private static final Logger Logger = LoggerFactory.getLogger(ParkingRatesServiceImpl.class);
 
     @Autowired
     RatesRepository ratesRepository;
@@ -34,8 +38,17 @@ public class ParkingRatesServiceImpl implements ParkingRatesService {
 
     @Override
     public Iterable<Rates> updateRates(ParkingRates newRates) {
-         ratesRepository.deleteAll();
-         ratesRepository.saveAll(newRates.getRatesList());
+        ratesRepository.deleteAll();
+        Iterable<Rates> rates;
+
+        if(newRates != null){
+            rates = ratesRepository.saveAll(newRates.getRatesList());
+            System.out.println("Rates saved :"+rates);
+
+            Logger.info(" Parking rates saved successfully");
+        }else{
+            Logger.info(" Not valid parking rates provided via API request");
+        }
 
          return ratesRepository.findAll();
     }
@@ -43,11 +56,24 @@ public class ParkingRatesServiceImpl implements ParkingRatesService {
     @Override
     public String getPrice(String startDateTime, String endDateTime) {
 
-        dateTimeFormatterHelper = new DateTimeFormatterHelper();
-        String startTime = dateTimeFormatterHelper.isoDateTimeFormat(startDateTime);
-        String endTime = dateTimeFormatterHelper.isoDateTimeFormat(endDateTime);
+        String parkingPrice=null;
 
-        String parkingPrice = findParkingPrice(startTime,endTime);
+        if(startDateTime != null && endDateTime != null){
+            dateTimeFormatterHelper = new DateTimeFormatterHelper();
+            String startTime = dateTimeFormatterHelper.isoDateTimeFormat(startDateTime);
+            String endTime = dateTimeFormatterHelper.isoDateTimeFormat(endDateTime);
+
+            parkingPrice = findParkingPrice(startTime,endTime);
+            System.out.println("Price inside getPrice :"+parkingPrice);
+
+            if(parkingPrice != null){
+                Logger.info("Parking price for the given request is available : {}",parkingPrice);
+                return parkingPrice;
+            }else if(parkingPrice == "unavailable"){
+                Logger.info("Kindly provide valida start and end dates");
+                parkingPrice="0";
+            }
+        }
 
         return parkingPrice;
     }
@@ -67,32 +93,33 @@ public class ParkingRatesServiceImpl implements ParkingRatesService {
         String endParkingTime = dateTimeFormatterHelper.getMilitaryTime(endTimes[1]);
 
         String timeZone = dateTimeFormatterHelper.getTimeZone(startTime);
+        List<String> parkingPrice;
 
         if(startDate.equals(endDate)){
             List<Rates> rates = ratesRepository.findByDaysAndTimes(startDayOfWeek.toLowerCase());
-            System.out.println("Rates :"+rates);
+            Logger.info("List of rates for the requested date and time range Rates : {}",rates);
 
-            if(rates.size() > 1){
-                return "unavailable";
-            }else{
-                System.out.println("Inside else");
-                Rates requiredRate = rates.get(0);
+            parkingPrice = new ArrayList<>();
+
+            for(Rates requiredRate : rates){
                 String timeRange = requiredRate.getTimes();
                 String[] timings = timeRange.split("-");
-                System.out.println("Start time :"+timings[0]+" End Time :"+timings[1]);
-
-                System.out.println("Request start time :"+startParkingTime+" end time : "+endParkingTime);
-
+                
                 if(Integer.valueOf(startParkingTime)> Integer.valueOf(timings[0]) &&
-                        Integer.valueOf(endParkingTime) < Integer.valueOf(timings[1])){
-                    System.out.println("True");
+                        Integer.valueOf(endParkingTime) < Integer.valueOf(timings[1]) && timeZone.equals(requiredRate.getTz())){
+                    parkingPrice.add(String.valueOf(requiredRate.getPrice()));
                 }
-
             }
+
+            if(parkingPrice.size() > 1 || parkingPrice.size() == 0){
+                return "0";
+            }
+
         }else{
-            return "unavailable";
+            return "0";
         }
 
-        return "price";
+        Logger.info("Successfully found the parking for given request (date and time) StartTime : {} EndTime : {} ParkingPrice :{}",startTimes,endTime,parkingPrice);
+        return parkingPrice.get(0);
     }
 }
