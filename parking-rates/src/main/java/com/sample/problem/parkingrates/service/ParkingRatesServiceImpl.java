@@ -21,21 +21,33 @@ public class ParkingRatesServiceImpl implements ParkingRatesService {
 
     DateTimeFormatterHelper dateTimeFormatterHelper;
 
+    /*
+        Gets the list of all the existing parking rates for a given day of the week and time range
+     */
     @Override
     public Iterable<Rates> getRates(){
         return ratesRepository.findAll();
     }
 
+    /*
+        Saves a single rate object that comprises of the day of the week, timezone, timerange and price
+     */
     @Override
     public Rates save(Rates rate){
         return ratesRepository.save(rate);
     }
 
+    /*
+        Saves the list of rates from the JSON object during application startip
+     */
     @Override
     public void saveAll(List<Rates> rates){
         ratesRepository.saveAll(rates);
     }
 
+    /*
+        Replaces/overwrites all the existing parking rates with the newly provided rates via the API request
+     */
     @Override
     public Iterable<Rates> updateRates(ParkingRates newRates) {
         ratesRepository.deleteAll();
@@ -53,6 +65,9 @@ public class ParkingRatesServiceImpl implements ParkingRatesService {
          return ratesRepository.findAll();
     }
 
+    /*
+
+     */
     @Override
     public String getPrice(String startDateTime, String endDateTime) {
 
@@ -104,9 +119,9 @@ public class ParkingRatesServiceImpl implements ParkingRatesService {
             for(Rates requiredRate : rates){
                 String timeRange = requiredRate.getTimes();
                 String[] timings = timeRange.split("-");
-                
-                if(Integer.valueOf(startParkingTime)> Integer.valueOf(timings[0]) &&
-                        Integer.valueOf(endParkingTime) < Integer.valueOf(timings[1]) && timeZone.equals(requiredRate.getTz())){
+
+                if(Integer.valueOf(startParkingTime)>= Integer.valueOf(timings[0]) &&
+                        Integer.valueOf(endParkingTime) <= Integer.valueOf(timings[1]) && timeZone.equals(requiredRate.getTz())){
                     parkingPrice.add(String.valueOf(requiredRate.getPrice()));
                 }
             }

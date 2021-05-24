@@ -38,7 +38,12 @@ public class ParkingRatesController {
         price =  parkingRatesService.getPrice(start,end);
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode jsonObject = mapper.createObjectNode();
-        jsonObject.put("price",Integer.valueOf(price));
+        if (price == "0") {
+            jsonObject.put("price","unavailable");
+        }else{
+            jsonObject.put("price",Integer.valueOf(price));
+        }
+
 
         return jsonObject;
     }
