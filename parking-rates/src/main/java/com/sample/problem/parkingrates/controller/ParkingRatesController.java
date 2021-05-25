@@ -4,47 +4,56 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.sample.problem.parkingrates.data.ParkingRates;
 import com.sample.problem.parkingrates.data.Rates;
+import com.sample.problem.parkingrates.data.RatesResponse;
 import com.sample.problem.parkingrates.service.ParkingRatesService;
 
+import com.sample.problem.parkingrates.utils.SwaggerConstants;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
+@ApiResponses(value = { @ApiResponse(code = 200, message = SwaggerConstants.SUCCESS),
+        @ApiResponse(code = 400, message = SwaggerConstants.INVALID_INPUT_DATA),
+        @ApiResponse(code = 404, message = SwaggerConstants.NOT_FOUND),
+        @ApiResponse(code = 500, message = SwaggerConstants.INTERNAL_SERVER_ERROR) })
 public class ParkingRatesController {
 
     @Autowired
     ParkingRatesService parkingRatesService;
 
+    @ApiOperation(value = "Get list of all the available parking rates", response = Rates.class)
     @GetMapping(path="/rates",produces = MediaType.APPLICATION_JSON_VALUE)
     public Iterable<Rates> getRates(){
-        //List<Rates> rates = parkingRatesService.getRates();
-
         return parkingRatesService.getRates();
     }
 
     @PutMapping(path="/rates",produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "Update/overwrite all the existing rates with new ones", response = Rates.class)
     public Iterable<Rates> updateRates(@RequestBody ParkingRates newRates){
-        //List<Rates> rates = parkingRatesService.getRates();
-
         return parkingRatesService.updateRates(newRates);
     }
 
     @GetMapping(path="/price",produces = MediaType.APPLICATION_JSON_VALUE)
-    public ObjectNode getPrice(@RequestParam String start, @RequestParam String end){
+    @ApiOperation(value = "Get parking price for a given day and time range", response = RatesResponse.class)
+    public RatesResponse getPrice(@RequestParam String start, @RequestParam String end){
 
         String price =null;
+        RatesResponse ratesResponse = new RatesResponse();
         price =  parkingRatesService.getPrice(start,end);
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode jsonObject = mapper.createObjectNode();
         if (price == "0") {
-            jsonObject.put("price","unavailable");
+            ratesResponse.setPrice("unavailable");
         }else{
-            jsonObject.put("price",Integer.valueOf(price));
+            ratesResponse.setPrice(price);
         }
 
 
-        return jsonObject;
+        return ratesResponse;
     }
 }
