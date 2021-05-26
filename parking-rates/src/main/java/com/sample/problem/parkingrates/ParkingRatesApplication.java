@@ -20,6 +20,10 @@ public class ParkingRatesApplication {
 		SpringApplication.run(ParkingRatesApplication.class, args);
 	}
 
+
+	/*
+		Bean to initialize, create and store the parking rates data in the database
+	 */
 	@Bean
 	CommandLineRunner runner(ParkingRatesService parkingRatesService){
 		return args -> {

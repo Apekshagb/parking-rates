@@ -1,6 +1,8 @@
 package com.sample.problem.parkingrates;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sample.problem.parkingrates.controller.ParkingRatesController;
+import com.sample.problem.parkingrates.data.ParkingRates;
 import com.sample.problem.parkingrates.data.Rates;
 import com.sample.problem.parkingrates.data.RatesResponse;
 import com.sample.problem.parkingrates.service.ParkingRatesService;
@@ -13,10 +15,9 @@ import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultMatcher;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -24,8 +25,8 @@ import org.springframework.util.MultiValueMap;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.hamcrest.CoreMatchers.is;
+
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 
 
@@ -43,8 +44,10 @@ public class ParkingRatesControllerTest {
     private ParkingRatesService parkingRatesService;
 
     private List<Rates> listOfRates;
-
+    private ParkingRates parkingRates;
     private String price = "0";
+
+
     @Before
     public void prepareData() {
         mockMvc = MockMvcBuilders.standaloneSetup(parkingRatesController).build();
@@ -55,13 +58,14 @@ public class ParkingRatesControllerTest {
         Rates rate5 = new Rates((long) 5,"sun,tues","0100-0700","America/Chicago",925);
         listOfRates = Arrays.asList(rate1,rate2,rate3,rate4,rate5);
 
+        parkingRates = new ParkingRates();
+        parkingRates.setRatesList(listOfRates);
+
         price = "2000";
-
-
     }
 
     @Test
-    public void getRates() throws Exception{
+    public void getAllRates() throws Exception{
 
         Mockito.when(parkingRatesService.getRates()).thenReturn(listOfRates);
 
@@ -71,6 +75,23 @@ public class ParkingRatesControllerTest {
                 .andExpect(jsonPath("$[0].times",is(listOfRates.get(0).getTimes())))
                 .andExpect(jsonPath("$[0].tz",is(listOfRates.get(0).getTz())))
                 .andExpect(jsonPath("$[0].price", is(listOfRates.get(0).getPrice())));
+    }
+
+    @Test
+    public void putAllRates() throws Exception{
+
+        Rates rate = new Rates((long) 1,"mon,tues,thurs","0900-2100","America/Chicago",1500);
+        Mockito.when(parkingRatesService.updateRates(parkingRates)).thenReturn(listOfRates);
+
+        mockMvc.perform(MockMvcRequestBuilders.put("/api/rates")
+                .content(asJsonString(rate))
+                .contentType(String.valueOf(MediaType.APPLICATION_JSON))
+                .accept(String.valueOf(MediaType.APPLICATION_JSON)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.days").value(listOfRates.get(0).getDays()))
+                .andExpect(jsonPath("$.times").value(listOfRates.get(0).getTimes()))
+                .andExpect(jsonPath("$.tz").value(listOfRates.get(0).getTz()))
+                .andExpect(jsonPath("$.price").value(listOfRates.get(0).getPrice()));
     }
 
     @Test
@@ -85,6 +106,14 @@ public class ParkingRatesControllerTest {
         mockMvc.perform(get("/api/price").queryParams(mockQueryParam))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"))
-                .andExpect((ResultMatcher) jsonPath("$[0].price", "2000"));
+                .andExpect(jsonPath("$.price").value("2000"));
+    }
+
+    private static String asJsonString(final Object obj) {
+        try {
+            return new ObjectMapper().writeValueAsString(obj);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

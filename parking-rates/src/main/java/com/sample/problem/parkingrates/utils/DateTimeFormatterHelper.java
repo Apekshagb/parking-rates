@@ -1,10 +1,8 @@
 package com.sample.problem.parkingrates.utils;
 
-import com.sample.problem.parkingrates.service.ParkingRatesServiceImpl;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.text.ParseException;
@@ -15,6 +13,9 @@ import java.util.Locale;
 public class DateTimeFormatterHelper {
     private static final org.slf4j.Logger Logger = LoggerFactory.getLogger(DateTimeFormatterHelper.class);
 
+    /*
+        Takes the requested date/time and returns the time in military format
+     */
     public String getMilitaryTime(String time){
 
         String formattedTimestamp = null;
@@ -34,6 +35,9 @@ public class DateTimeFormatterHelper {
         return formattedTimestamp;
     }
 
+    /*
+        Takes the requested date/time and returns the value in "yyyy-MM-dd'T'HH:mm:ss" format
+     */
     public String isoDateTimeFormat(String dateTime){
         
 
@@ -52,6 +56,8 @@ public class DateTimeFormatterHelper {
         return formattedDateString;
     }
 
+
+    //Get day of the week using the Joda time
     public String getDayOfWeek(String dateTime){
 
         DateTime dt = new DateTime(dateTime);
@@ -62,6 +68,7 @@ public class DateTimeFormatterHelper {
         return dayofWeek;
     }
 
+    //Get day of the timezone using the Joda time
     public String getTimeZone(String dateTime){
 
         DateTime dt = new DateTime(dateTime);
