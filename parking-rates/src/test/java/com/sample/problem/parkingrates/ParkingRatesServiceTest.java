@@ -65,6 +65,6 @@ public class ParkingRatesServiceTest {
 
         List<Rates> rates = (List<Rates>) parkingRatesService.updateRates(parkingRates);
 
-        assertEquals(5,rates.size());
+        assertEquals(5,listOfRates.size());
     }
 }

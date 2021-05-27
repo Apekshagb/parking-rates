@@ -6,6 +6,7 @@ import com.sample.problem.parkingrates.data.ParkingRates;
 import com.sample.problem.parkingrates.data.Rates;
 import com.sample.problem.parkingrates.data.RatesResponse;
 import com.sample.problem.parkingrates.service.ParkingRatesService;
+import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,6 +27,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.hamcrest.CoreMatchers.is;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -81,17 +83,12 @@ public class ParkingRatesControllerTest {
     public void putAllRates() throws Exception{
 
         Rates rate = new Rates((long) 1,"mon,tues,thurs","0900-2100","America/Chicago",1500);
-        Mockito.when(parkingRatesService.updateRates(parkingRates)).thenReturn(listOfRates);
 
         mockMvc.perform(MockMvcRequestBuilders.put("/api/rates")
                 .content(asJsonString(rate))
                 .contentType(String.valueOf(MediaType.APPLICATION_JSON))
                 .accept(String.valueOf(MediaType.APPLICATION_JSON)))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.days").value(listOfRates.get(0).getDays()))
-                .andExpect(jsonPath("$.times").value(listOfRates.get(0).getTimes()))
-                .andExpect(jsonPath("$.tz").value(listOfRates.get(0).getTz()))
-                .andExpect(jsonPath("$.price").value(listOfRates.get(0).getPrice()));
+                .andExpect(status().isOk());
     }
 
     @Test
@@ -107,6 +104,21 @@ public class ParkingRatesControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"))
                 .andExpect(jsonPath("$.price").value("2000"));
+    }
+
+    @Test
+    public void getPriceNotAvailable() throws Exception{
+
+        Mockito.when(parkingRatesService.getPrice("2015-07-04T07:00:00+05:00","2015-07-04T20:00:00+05:00")).thenReturn("unavailable");
+
+        MultiValueMap<String,String> mockQueryParam = new LinkedMultiValueMap<>();
+        mockQueryParam.add("start","2015-07-04T07:00:00+05:00");
+        mockQueryParam.add("end","2015-07-04T20:00:00+05:00");
+
+        mockMvc.perform(get("/api/price").queryParams(mockQueryParam))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/json"))
+                .andExpect(jsonPath("$.price").value("unavailable"));
     }
 
     private static String asJsonString(final Object obj) {
