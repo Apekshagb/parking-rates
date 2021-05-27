@@ -20,6 +20,16 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
+/**
+ * The ParkingRatesApplication Controller class exposes 3 API's that can be used
+ * to store, update and get the prices for a request day and time.
+ *
+ * @author  Apeksha Barhnapur
+ * @version 1.0
+ * @since   2021-05-23
+ */
+
 @RestController
 @RequestMapping("/api")
 @ApiResponses(value = { @ApiResponse(code = 200, message = SwaggerConstants.SUCCESS),
@@ -40,12 +50,20 @@ public class ParkingRatesController {
 
     @PutMapping(path="/rates",produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Update/overwrite all the existing rates with new ones", response = Rates.class)
-    public ResponseEntity<String> updateRates(@RequestBody ParkingRates newRates){
+    public Iterable<Rates> updateRates(@RequestBody ParkingRates newRates){
+        Iterable<Rates> updatedRates;
 
         if(newRates == null){
-            return new ResponseEntity<>("Invalid request need to provide list of rates", HttpStatus.BAD_REQUEST);
+            return (Iterable<Rates>) new ResponseEntity<String>("Invalid request need to provide list of rates", HttpStatus.BAD_REQUEST);
         }
-        return  new ResponseEntity<>("Rates have been updated successfully", HttpStatus.OK);
+
+        updatedRates =  parkingRatesService.updateRates(newRates);
+
+        if(updatedRates == null){
+            return  (Iterable<Rates>)new ResponseEntity<>("Rates were not updated successfully", HttpStatus.OK);
+        }
+
+        return  updatedRates;
     }
 
     @GetMapping(path="/price",produces = MediaType.APPLICATION_JSON_VALUE)

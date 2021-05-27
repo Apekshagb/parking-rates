@@ -12,6 +12,15 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+
+/**
+ * The ParkingRatesApplication service class that comprises of all the DAO calls
+ *and function to get the price for a given dateTime
+ *
+ * @author  Apeksha Barhnapur
+ * @version 1.0
+ * @since   2021-05-23
+ */
 @Service
 public class ParkingRatesServiceImpl implements ParkingRatesService {
     private static final Logger Logger = LoggerFactory.getLogger(ParkingRatesServiceImpl.class);
@@ -21,7 +30,7 @@ public class ParkingRatesServiceImpl implements ParkingRatesService {
 
     DateTimeFormatterHelper dateTimeFormatterHelper;
 
-    /*
+    /**
         Gets the list of all the existing parking rates for a given day of the week and time range
      */
     @Override
@@ -29,7 +38,7 @@ public class ParkingRatesServiceImpl implements ParkingRatesService {
         return ratesRepository.findAll();
     }
 
-    /*
+    /**
         Saves a single rate object that comprises of the day of the week, timezone, timerange and price
      */
     @Override
@@ -37,16 +46,25 @@ public class ParkingRatesServiceImpl implements ParkingRatesService {
         return ratesRepository.save(rate);
     }
 
-    /*
+    /**
         Saves the list of rates from the JSON object during application startip
+        @param rates - list of rates to be save during application startup
      */
     @Override
     public void saveAll(List<Rates> rates){
-        ratesRepository.saveAll(rates);
+
+        try{
+            ratesRepository.saveAll(rates);
+        }catch (IllegalArgumentException e){
+            Logger.error(" Exception while saving the rates message :{} ",e.getMessage());
+            e.printStackTrace();
+        }
+
     }
 
-    /*
+    /**
         Replaces/overwrites all the existing parking rates with the newly provided rates via the API request
+        @param newRates - list of new rates that will overwrite the existing
      */
     @Override
     public Iterable<Rates> updateRates(ParkingRates newRates) {
@@ -54,10 +72,18 @@ public class ParkingRatesServiceImpl implements ParkingRatesService {
         Iterable<Rates> rates;
 
         if(newRates != null){
-            rates = ratesRepository.saveAll(newRates.getRatesList());
-            System.out.println("Rates saved :"+rates);
+            try {
+                rates = ratesRepository.saveAll(newRates.getRatesList());
 
-            Logger.info(" Parking rates saved successfully");
+                if(rates != null){
+                    Logger.info(" Parking rates saved successfully");
+                }else{
+                    Logger.warn(" Encountered issues while updating the parking rates");
+                }
+            }catch (IllegalArgumentException e){
+                Logger.error(" Exception while updating the rates, requestedRates : {} , message :{} ",newRates, e.getMessage());
+                e.printStackTrace();
+            }
         }else{
             Logger.info(" Not valid parking rates provided via API request");
         }
@@ -65,8 +91,11 @@ public class ParkingRatesServiceImpl implements ParkingRatesService {
          return ratesRepository.findAll();
     }
 
-    /*
-
+    /**
+        Get parking price for a give start and end date+time range
+        @param startDateTime
+        @param  endDateTime
+        @return parkingPrice
      */
     @Override
     public String getPrice(String startDateTime, String endDateTime) {
@@ -93,6 +122,13 @@ public class ParkingRatesServiceImpl implements ParkingRatesService {
         return parkingPrice;
     }
 
+
+    /**
+     *
+     * @param startTime
+     * @param endTime
+     * @return
+     */
     private String findParkingPrice(String startTime,String endTime){
         dateTimeFormatterHelper = new DateTimeFormatterHelper();
 

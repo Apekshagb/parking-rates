@@ -13,6 +13,15 @@ import org.springframework.context.annotation.Bean;
 import java.io.*;
 import java.util.List;
 
+
+/**
+ * The ParkingRatesApplication exposes 3 API's that can be used
+ * to store, update and get the prices for a request day and time.
+ *
+ * @author  Apeksha Barhnapur
+ * @version 1.0
+ * @since   2021-05-23
+ */
 @SpringBootApplication
 public class ParkingRatesApplication {
 
@@ -21,8 +30,9 @@ public class ParkingRatesApplication {
 	}
 
 
-	/*
+	/**
 		Bean to initialize, create and store the parking rates data in the database
+		@param parkingRatesService - holds the data for list of parking rates
 	 */
 	@Bean
 	CommandLineRunner runner(ParkingRatesService parkingRatesService){
