@@ -30,7 +30,7 @@
 Kindly make sure the following softwares/tools have been installed on your system before you clone and run the application.  
 
 :white_check_mark: IDE to run the spring boot application  
-:white_check_mark: Java 11 installed 
+:white_check_mark: Java 11 installed   
 :white_check_mark: Maven 3.x version  installed
 
 **Installation**  
@@ -49,7 +49,7 @@ Kindly make sure the following softwares/tools have been installed on your syste
     :eight_pointed_black_star: Get parking price for a given date and time range (GET method) - http://localhost:5000/api/price?start=&end=  
     
  
-**Swagger**  - http://localhost:5000/swagger-ui.html
+**Swagger**  - http://localhost:5000/swagger-ui.html  
 
 **Contact**  
 Apeksha Barhanpur; apeksha.gb@gmail.com  
