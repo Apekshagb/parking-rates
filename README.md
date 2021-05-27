@@ -47,7 +47,7 @@ Kindly make sure the following softwares/tools have been installed on your syste
  Below are the list of API's that you can access:  
     :eight_pointed_black_star: Get the list of existing rates (GET method)- http://localhost:5000/api/rates  
     :eight_pointed_black_star: Update the existing rates with a newwer set of rates (PUT Method) - http://localhost:5000/api/rates  
-    :eight_pointed_black_star: Get parking price for a given date and time range (GET method) - http://localhost:5000/api/price?start=&end=  
+    :eight_pointed_black_star: Get parking price for a given date and time range (GET method) - http://localhost:5000/api/price?start=2015-07-01T07:00:00-05:00&end=2015-07-01T12:00:00-05:00     
     
 **Database URL and Login credentials** - http://localhost:5000/h2-console/  (username:parking-rates, password:rates)  
 **Swagger**  - http://localhost:5000/swagger-ui.html  
