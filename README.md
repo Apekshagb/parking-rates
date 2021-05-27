@@ -37,7 +37,8 @@ Kindly make sure the following softwares/tools have been installed on your syste
 :white_check_mark: Clone the repo  
 :white_check_mark: You can run the following command via your command line " git clone https://github.com/Apekshagb/parking-rates.git "  
 :white_check_mark: Import project into IDE as a maven project   
-:white_check_mark: Build the application  
+:white_check_mark: Open a command line or terminal on your IDE and run -- mvn clean install  
+:white_check_mark: Build the application    
 
 **Running**  
 :white_check_mark: Run the SprintBootApplication (ParkingRatesApplication.java) -> You can right click within the file and run the app or run at the app level  
