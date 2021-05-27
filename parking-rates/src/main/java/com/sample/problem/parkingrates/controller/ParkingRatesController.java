@@ -2,17 +2,15 @@ package com.sample.problem.parkingrates.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.sample.problem.parkingrates.data.ParkingRates;
-import com.sample.problem.parkingrates.data.Rates;
-import com.sample.problem.parkingrates.data.RatesResponse;
+import com.sample.problem.parkingrates.model.ParkingRates;
+import com.sample.problem.parkingrates.model.Rates;
+import com.sample.problem.parkingrates.model.RatesResponse;
 import com.sample.problem.parkingrates.service.ParkingRatesService;
 
-import com.sample.problem.parkingrates.service.ParkingRatesServiceImpl;
 import com.sample.problem.parkingrates.utils.SwaggerConstants;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

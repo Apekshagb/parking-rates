@@ -1,4 +1,4 @@
-package com.sample.problem.parkingrates.data;
+package com.sample.problem.parkingrates.model;
 
 public class RatesResponse {
 

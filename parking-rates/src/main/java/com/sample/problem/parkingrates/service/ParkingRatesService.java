@@ -1,7 +1,7 @@
 package com.sample.problem.parkingrates.service;
 
-import com.sample.problem.parkingrates.data.ParkingRates;
-import com.sample.problem.parkingrates.data.Rates;
+import com.sample.problem.parkingrates.model.ParkingRates;
+import com.sample.problem.parkingrates.model.Rates;
 
 import java.util.List;
 

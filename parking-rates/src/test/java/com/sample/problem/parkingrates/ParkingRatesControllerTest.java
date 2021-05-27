@@ -2,11 +2,9 @@ package com.sample.problem.parkingrates;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sample.problem.parkingrates.controller.ParkingRatesController;
-import com.sample.problem.parkingrates.data.ParkingRates;
-import com.sample.problem.parkingrates.data.Rates;
-import com.sample.problem.parkingrates.data.RatesResponse;
+import com.sample.problem.parkingrates.model.ParkingRates;
+import com.sample.problem.parkingrates.model.Rates;
 import com.sample.problem.parkingrates.service.ParkingRatesService;
-import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,7 +25,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.hamcrest.CoreMatchers.is;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 

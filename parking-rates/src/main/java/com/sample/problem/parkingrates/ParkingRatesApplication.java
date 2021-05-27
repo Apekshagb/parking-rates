@@ -2,8 +2,7 @@ package com.sample.problem.parkingrates;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sample.problem.parkingrates.data.ParkingRates;
-import com.sample.problem.parkingrates.data.Rates;
+import com.sample.problem.parkingrates.model.ParkingRates;
 import com.sample.problem.parkingrates.service.ParkingRatesService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -11,7 +10,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import java.io.*;
-import java.util.List;
 
 
 /**
@@ -31,8 +29,8 @@ public class ParkingRatesApplication {
 
 
 	/**
-		Bean to initialize, create and store the parking rates data in the database
-		@param parkingRatesService - holds the data for list of parking rates
+		Bean to initialize, create and store the parking rates model in the database
+		@param parkingRatesService - holds the model for list of parking rates
 	 */
 	@Bean
 	CommandLineRunner runner(ParkingRatesService parkingRatesService){

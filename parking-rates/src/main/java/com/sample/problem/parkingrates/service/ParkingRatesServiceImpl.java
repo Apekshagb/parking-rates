@@ -1,7 +1,7 @@
 package com.sample.problem.parkingrates.service;
 
-import com.sample.problem.parkingrates.data.ParkingRates;
-import com.sample.problem.parkingrates.data.Rates;
+import com.sample.problem.parkingrates.model.ParkingRates;
+import com.sample.problem.parkingrates.model.Rates;
 import com.sample.problem.parkingrates.repository.RatesRepository;
 import com.sample.problem.parkingrates.utils.DateTimeFormatterHelper;
 import org.slf4j.Logger;
